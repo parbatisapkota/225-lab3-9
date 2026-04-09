@@ -21,8 +21,12 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                sh 'python3 -m pip install --upgrade pip'
-                sh 'pip install -r requirements.txt'
+                sh '''
+                sudo apt-get update
+                sudo apt-get install -y python3-pip
+                pip3 install --upgrade pip
+                pip3 install -r requirements.txt
+                '''
             }
         }
 
@@ -34,7 +38,7 @@ pipeline {
 
         stage('Security Scan (Bandit)') {
             steps {
-                sh 'pip install bandit'
+                sh 'pip3 install bandit'
                 sh 'bandit -r .'
             }
         }
